@@ -1220,6 +1220,7 @@ class Pack(object):
                               f" => {latest_release_notes}"
             logging.info(f"Aggregating ReleaseNotes versions: {aggregation_str}")
             release_notes_lines = aggregate_release_notes_for_marketplace(pack_versions_dict)
+            logging.info(f'RN Lines: {release_notes_lines}')
             self._aggregated = True
             self._aggregation_str = aggregation_str
         else:
@@ -1301,6 +1302,7 @@ class Pack(object):
                                                                              version_display_name=latest_release_notes,
                                                                              build_number=build_number,
                                                                              new_version=True)
+                            logging.info(f'version changelog {str(version_changelog)}')
 
                         if version_changelog:
                             changelog[latest_release_notes] = version_changelog
