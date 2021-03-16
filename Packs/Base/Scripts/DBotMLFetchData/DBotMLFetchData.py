@@ -23,7 +23,7 @@ from datetime import datetime
 import tldextract
 from email.utils import parseaddr
 
-EXECUTION_JSON_FIELD = 'last_execution'
+EXECUTION_JSON_FIELD = 'last_executixon'
 VERSION_JSON_FIELD = 'script_version'
 
 MAX_ALLOWED_EXCEPTIONS = 20
