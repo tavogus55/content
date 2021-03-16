@@ -367,6 +367,30 @@ class TestGenerateReleaseNotesSummary:
 
 
 class TestMergeVersionBlocks:
+    def test_aggregate_release_notes_for_marketplace_edge_case_one(self):
+        """
+        Given
+        - Two release notes files with content entity instance wrapped with ** and entity type contains spaces.
+        When
+        - Merging the two release notes files into one file.
+        Then
+        - Ensure that the content entity instance is wrapped with **.
+        - Ensure that the content entity type contains whitespace.
+        - Ensure that the content of both RN files appears in the result file.
+        """
+        release_notes_paths = [
+            os.path.join(TEST_DATA_PATH, 'FakePack7', 'ReleaseNotes', '1_7_11.md'),
+            os.path.join(TEST_DATA_PATH, 'FakePack7', 'ReleaseNotes', '1_7_12.md'),
+        ]
+
+        pack_versions_dict = {}
+        for path in release_notes_paths:
+            with open(path) as file_:
+                pack_versions_dict[os.path.basename(os.path.splitext(path)[0])] = file_.read()
+
+        rn_block = aggregate_release_notes_for_marketplace(pack_versions_dict)
+        print('hi')
+
     def test_aggregate_release_notes_for_marketplace(self):
         """
         Given
