@@ -12,7 +12,7 @@ tasks:
       id: 9e37ba5e-21dd-4843-82b4-e3a92c91d67a
       version: -1
       name: ""
-      iscommand: false
+      iscommand: true
       brand: ""
     nexttasks:
       '#none#':
