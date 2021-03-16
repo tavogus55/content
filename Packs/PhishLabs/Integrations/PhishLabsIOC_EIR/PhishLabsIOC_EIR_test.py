@@ -1,4 +1,5 @@
 import pytest
+from PhishLabsIOC_EIR import Client
 
 '''Globals'''
 INDICATORS_EC = [
@@ -57,6 +58,7 @@ INDICATORS_EC = [
 
 INDICATORS_DBOT_EC = [
     (
+        Client(base_url='http://xxx.com'),
         'url-ec',
         {
             "url": "https://google.com/",
@@ -68,7 +70,8 @@ INDICATORS_DBOT_EC = [
                 'Indicator': "https://google.com/",
                 'Type': 'URL',
                 'Vendor': "PhishLabs IOC - EIR",
-                'Score': 1
+                'Score': 1,
+                'Reliability': 'B - Usually reliable'
             },
             {
                 'Data': "https://google.com/",
@@ -80,6 +83,7 @@ INDICATORS_DBOT_EC = [
         )
     ),
     (
+        Client(base_url='http://xxx.com'),
         'file-ec',
         {
             "fileName": "EECO_RFQ__453100Q.pdf",
@@ -93,7 +97,8 @@ INDICATORS_DBOT_EC = [
                 'Indicator': "EECO_RFQ__453100Q.pdf",
                 'Type': 'File',
                 'Vendor': "PhishLabs IOC - EIR",
-                'Score': 1
+                'Score': 1,
+                'Reliability': 'B - Usually reliable'
             },
             {
                 'Name': "EECO_RFQ__453100Q.pdf",
@@ -111,6 +116,7 @@ INDICATORS_DBOT_EC = [
 
 INDICATORS_TO_LIST_EC = [
     (
+        Client(base_url='http://xxx.com'),
         'url-ec',
         [
             {
@@ -158,19 +164,22 @@ INDICATORS_TO_LIST_EC = [
                     'Indicator': "https://google.com/u/gI5Qk",
                     'Type': 'URL',
                     'Vendor': "PhishLabs IOC - EIR",
-                    'Score': 1
+                    'Score': 1,
+                    'Reliability': 'B - Usually reliable'
                 },
                 {
                     'Indicator': "https://google.com/api/track/v2/5",
                     'Type': 'URL',
                     'Vendor': "PhishLabs IOC - EIR",
-                    'Score': 1
+                    'Score': 1,
+                    'Reliability': 'B - Usually reliable'
                 },
                 {
                     'Indicator': "https://google.com/",
                     'Type': 'URL',
                     'Vendor': "PhishLabs IOC - EIR",
-                    'Score': 1
+                    'Score': 1,
+                    'Reliability': 'B - Usually reliable'
                 }
             ]
         )
@@ -292,13 +301,15 @@ RAW_RESPONSE_TO_CONTEXT = [
                 'Indicator': "EECO_RFQ__453100Q.pdf",
                 'Type': 'File',
                 'Vendor': "PhishLabs IOC - EIR",
-                'Score': 1
+                'Score': 1,
+                'Reliability': 'B - Usually reliable'
             },
             {
                 'Indicator': "https://google.com/i5/resp",
                 'Type': "URL",
                 'Vendor': "PhishLabs IOC - EIR",
-                'Score': 1
+                'Score': 1,
+                'Reliability': 'B - Usually reliable'
             }
         ]
     )
@@ -315,21 +326,22 @@ class TestHelperFunctions:
                               type_ec=type_ec)
         assert result == test_outputs
 
-    @pytest.mark.parametrize(argnames='type_ec, test_inputs, test_outputs', argvalues=INDICATORS_DBOT_EC)
-    def test_indicator_dbot_ec(self, type_ec, test_inputs, test_outputs):
+    @pytest.mark.parametrize(argnames='client, type_ec, test_inputs, test_outputs', argvalues=INDICATORS_DBOT_EC)
+    def test_indicator_dbot_ec(self, client, type_ec, test_inputs, test_outputs):
         from PhishLabsIOC_EIR import indicator_dbot_ec
-        result = indicator_dbot_ec(indicator=test_inputs,
+        result = indicator_dbot_ec(client=client, indicator=test_inputs,
                                    type_ec=type_ec)
         assert result == test_outputs
 
-    @pytest.mark.parametrize(argnames='type_ec, test_inputs, test_outputs', argvalues=INDICATORS_TO_LIST_EC)
-    def test_indicators_to_list_ec(self, type_ec, test_inputs, test_outputs):
+    @pytest.mark.parametrize(argnames='client, type_ec, test_inputs, test_outputs', argvalues=INDICATORS_TO_LIST_EC)
+    def test_indicators_to_list_ec(self, client, type_ec, test_inputs, test_outputs):
         from PhishLabsIOC_EIR import indicators_to_list_ec
-        result = indicators_to_list_ec(indicators=test_inputs,
+        result = indicators_to_list_ec(client=client, indicators=test_inputs,
                                        type_ec=type_ec)
         assert result == test_outputs
 
     def test_raw_response_to_context(self):
         from PhishLabsIOC_EIR import raw_response_to_context
-        result = raw_response_to_context(incidents=RAW_RESPONSE_TO_CONTEXT[0])
+        client = Client(base_url='http://xxx.com')
+        result = raw_response_to_context(client=client, incidents=RAW_RESPONSE_TO_CONTEXT[0])
         assert result == RAW_RESPONSE_TO_CONTEXT[1]
